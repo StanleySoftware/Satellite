@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SatelliteApp", "SatelliteApp\SatelliteApp.csproj", "{EE8E68BF-91BD-4BD4-ADFC-0823ADC77872}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SatelliteGit", "SatelliteGit\SatelliteGit.csproj", "{4B73FB64-0766-4BB1-9D0C-30239741DB72}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ISatellite", "ISatellite\ISatellite.csproj", "{AA4FCCE8-34B5-4F9B-9B5A-C37C0DCBF77A}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SatelliteInstaller", "SatelliteInstaller\SatelliteInstaller.wixproj", "{6FCF464B-B50D-4E99-9EBB-0460F42FCBA7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SatelliteLib", "SatelliteLib\SatelliteLib.csproj", "{C8B4BFD3-F8AE-4777-B7CC-61D121DC04E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE8E68BF-91BD-4BD4-ADFC-0823ADC77872}.Debug|x64.ActiveCfg = Debug|x64
+		{EE8E68BF-91BD-4BD4-ADFC-0823ADC77872}.Debug|x64.Build.0 = Debug|x64
+		{EE8E68BF-91BD-4BD4-ADFC-0823ADC77872}.Debug|x86.ActiveCfg = Debug|x86
+		{EE8E68BF-91BD-4BD4-ADFC-0823ADC77872}.Debug|x86.Build.0 = Debug|x86
+		{EE8E68BF-91BD-4BD4-ADFC-0823ADC77872}.Release|x64.ActiveCfg = Release|x64
+		{EE8E68BF-91BD-4BD4-ADFC-0823ADC77872}.Release|x64.Build.0 = Release|x64
+		{EE8E68BF-91BD-4BD4-ADFC-0823ADC77872}.Release|x86.ActiveCfg = Release|x86
+		{EE8E68BF-91BD-4BD4-ADFC-0823ADC77872}.Release|x86.Build.0 = Release|x86
+		{4B73FB64-0766-4BB1-9D0C-30239741DB72}.Debug|x64.ActiveCfg = Debug|x64
+		{4B73FB64-0766-4BB1-9D0C-30239741DB72}.Debug|x64.Build.0 = Debug|x64
+		{4B73FB64-0766-4BB1-9D0C-30239741DB72}.Debug|x86.ActiveCfg = Debug|x86
+		{4B73FB64-0766-4BB1-9D0C-30239741DB72}.Debug|x86.Build.0 = Debug|x86
+		{4B73FB64-0766-4BB1-9D0C-30239741DB72}.Release|x64.ActiveCfg = Release|x64
+		{4B73FB64-0766-4BB1-9D0C-30239741DB72}.Release|x64.Build.0 = Release|x64
+		{4B73FB64-0766-4BB1-9D0C-30239741DB72}.Release|x86.ActiveCfg = Release|x86
+		{4B73FB64-0766-4BB1-9D0C-30239741DB72}.Release|x86.Build.0 = Release|x86
+		{AA4FCCE8-34B5-4F9B-9B5A-C37C0DCBF77A}.Debug|x64.ActiveCfg = Debug|x64
+		{AA4FCCE8-34B5-4F9B-9B5A-C37C0DCBF77A}.Debug|x64.Build.0 = Debug|x64
+		{AA4FCCE8-34B5-4F9B-9B5A-C37C0DCBF77A}.Debug|x86.ActiveCfg = Debug|x86
+		{AA4FCCE8-34B5-4F9B-9B5A-C37C0DCBF77A}.Debug|x86.Build.0 = Debug|x86
+		{AA4FCCE8-34B5-4F9B-9B5A-C37C0DCBF77A}.Release|x64.ActiveCfg = Release|x64
+		{AA4FCCE8-34B5-4F9B-9B5A-C37C0DCBF77A}.Release|x64.Build.0 = Release|x64
+		{AA4FCCE8-34B5-4F9B-9B5A-C37C0DCBF77A}.Release|x86.ActiveCfg = Release|x86
+		{AA4FCCE8-34B5-4F9B-9B5A-C37C0DCBF77A}.Release|x86.Build.0 = Release|x86
+		{6FCF464B-B50D-4E99-9EBB-0460F42FCBA7}.Debug|x64.ActiveCfg = Debug|x64
+		{6FCF464B-B50D-4E99-9EBB-0460F42FCBA7}.Debug|x86.ActiveCfg = Debug|x86
+		{6FCF464B-B50D-4E99-9EBB-0460F42FCBA7}.Release|x64.ActiveCfg = Release|x64
+		{6FCF464B-B50D-4E99-9EBB-0460F42FCBA7}.Release|x86.ActiveCfg = Release|x86
+		{C8B4BFD3-F8AE-4777-B7CC-61D121DC04E1}.Debug|x64.ActiveCfg = Debug|x64
+		{C8B4BFD3-F8AE-4777-B7CC-61D121DC04E1}.Debug|x86.ActiveCfg = Debug|x86
+		{C8B4BFD3-F8AE-4777-B7CC-61D121DC04E1}.Release|x64.ActiveCfg = Release|x64
+		{C8B4BFD3-F8AE-4777-B7CC-61D121DC04E1}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DAE0CC45-7C8D-492F-9E30-ADF8BB45A387}
+	EndGlobalSection
+EndGlobal

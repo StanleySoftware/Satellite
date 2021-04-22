@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "SatelliteApp": {
+      "commandName": "Project",
+      "commandLineArgs": "python --args hello.py",
+      "workingDirectory": "C:\\Users\\Ewan"
+    }
+  }
+}
