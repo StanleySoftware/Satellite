@@ -25,8 +25,8 @@ Satellite relies on the VCS being used for your working copy. It uses this to lo
 The first step is configuring your checkout with satellite.json files. The root of your working copy is required to have a satellite.json as a starting point for more complex queries. The json file simply acts as a map from a keyname to string:
 ```json
 {
-  "scripts": "./Scripts"
-  "python": "./Scripts/Python/satellite.json",
+  "scripts" : "./Scripts",
+  "python" : "./PythonFolder/satellite.json"
 }
 ```
 The entries can be used to hold values but can also be used to point to other satellite.json files.
@@ -41,9 +41,13 @@ SomeDrive
 │   │   satellite.json
 │   │
 │   └───SomeFolder
-│       │   hello.py
-│       │   ...
-│   
+│   |   │   hello.py
+│   |   │   ...
+│   |
+│   └───PythonFolder
+│       │   satellite.json
+│       │   python.exe
+|
 └───ProjectB
 │   │ ...
 ```
@@ -54,4 +58,8 @@ satellite python --args hello.py
 ```
 Satellite resolves `python` against the satellite.json file at the root of ProjectA, and then invokes the process at the path it has looked up (see section on queries for more details about this).
 
-# WIP -- description pending #
+### Through SatelliteLib.dll ###
+
+TODO
+
+## Queries ##
