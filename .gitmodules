@@ -1,0 +1,3 @@
+[submodule "Submodules/json"]
+	path = Submodules/json
+	url = https://github.com/StanleySoftware/json.git
