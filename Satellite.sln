@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ISatellite", "ISatellite\IS
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SatelliteInstaller", "SatelliteInstaller\SatelliteInstaller.wixproj", "{6FCF464B-B50D-4E99-9EBB-0460F42FCBA7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SatelliteLib", "SatelliteLib\SatelliteLib.csproj", "{C8B4BFD3-F8AE-4777-B7CC-61D121DC04E1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SatelliteLib", "SatelliteLib\SatelliteLib.vcxproj", "{2719D8C8-EDD5-40FF-8F91-9F770949E940}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +49,14 @@ Global
 		{6FCF464B-B50D-4E99-9EBB-0460F42FCBA7}.Debug|x86.ActiveCfg = Debug|x86
 		{6FCF464B-B50D-4E99-9EBB-0460F42FCBA7}.Release|x64.ActiveCfg = Release|x64
 		{6FCF464B-B50D-4E99-9EBB-0460F42FCBA7}.Release|x86.ActiveCfg = Release|x86
-		{C8B4BFD3-F8AE-4777-B7CC-61D121DC04E1}.Debug|x64.ActiveCfg = Debug|x64
-		{C8B4BFD3-F8AE-4777-B7CC-61D121DC04E1}.Debug|x86.ActiveCfg = Debug|x86
-		{C8B4BFD3-F8AE-4777-B7CC-61D121DC04E1}.Release|x64.ActiveCfg = Release|x64
-		{C8B4BFD3-F8AE-4777-B7CC-61D121DC04E1}.Release|x86.ActiveCfg = Release|x86
+		{2719D8C8-EDD5-40FF-8F91-9F770949E940}.Debug|x64.ActiveCfg = Debug|x64
+		{2719D8C8-EDD5-40FF-8F91-9F770949E940}.Debug|x64.Build.0 = Debug|x64
+		{2719D8C8-EDD5-40FF-8F91-9F770949E940}.Debug|x86.ActiveCfg = Debug|Win32
+		{2719D8C8-EDD5-40FF-8F91-9F770949E940}.Debug|x86.Build.0 = Debug|Win32
+		{2719D8C8-EDD5-40FF-8F91-9F770949E940}.Release|x64.ActiveCfg = Release|x64
+		{2719D8C8-EDD5-40FF-8F91-9F770949E940}.Release|x64.Build.0 = Release|x64
+		{2719D8C8-EDD5-40FF-8F91-9F770949E940}.Release|x86.ActiveCfg = Release|Win32
+		{2719D8C8-EDD5-40FF-8F91-9F770949E940}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

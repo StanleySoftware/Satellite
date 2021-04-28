@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -13,25 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\Lib\libgit2sharp\$(Platform)\lib\win32\$(Platform)\git2-106a5f2.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Lib\libgit2sharp\$(Platform)\lib\win32\$(Platform)\git2-106a5f2.pdb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LICENSELibGit2Sharp.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Remove="..\Lib\libgit2sharp\x64\lib\win32\x64\git2-106a5f2.dll" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ISatellite\ISatellite.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="LibGit2Sharp">
-      <HintPath>..\Lib\libgit2sharp\$(Platform)\LibGit2Sharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

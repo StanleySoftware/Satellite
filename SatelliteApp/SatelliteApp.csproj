@@ -50,8 +50,4 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SatelliteLib\SatelliteLib.csproj" />
-  </ItemGroup>
-
 </Project>
