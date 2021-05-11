@@ -54,12 +54,16 @@ SomeDrive
 
 then, if our working directory is set to `SomeDrive:\ProjectA\SomeFolder` and we run the following on the command line:
 ```
-satellite python --args hello.py
+satellite python --args "hello.py"
 ```
 Satellite resolves `python` against the satellite.json file at the root of ProjectA, and then invokes the process at the path it has looked up (see section on queries for more details about this).
 
-### Through SatelliteLib.dll ###
+### By linking ###
 
-TODO
+Satellite is also provided as a library that can be linked into your own developments tools.
+
+* SatelliteC.dll provides a C-style interface for using Satellite
+* SatelliteManaged.dll provides a .NET core interface for using Satellite (via SatelliteC.dll)
+* SatelliteLib.lib can be compiled as a static library and linked directly into other applications.
 
 ## Queries ##
