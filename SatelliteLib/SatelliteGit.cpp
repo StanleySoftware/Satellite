@@ -25,14 +25,14 @@ void SatelliteGit::unload()
     GitProxy::git_libgit2_shutdown();
 }
 
-CheckoutInfo SatelliteGit::checkout_info(char const* p_targetPath)
+Error SatelliteGit::checkout_info(char const* p_targetPath, CheckoutInfo& p_out_checkoutInfo)
 {    
     GitProxy::GitBuf buf{};
     GitProxy::GitRepo* repo{};
-    int discoverResult{};
-    int repoOpenResult{};
+    int discoverResult = -1;
+    int repoOpenResult = -1;
     char const * workdirCharPtr{};
-    std::unique_ptr<char const[]> workdir{}; //Use unique_ptr because it is nullable unlike std::string
+    CStringWrapper workdir{}; //Use CStringWrapper because it is nullable unlike std::string
 
     discoverResult = GitProxy::git_repository_discover(&buf, p_targetPath, false, nullptr);
     if(discoverResult != 0 || buf.m_ptr == nullptr)
@@ -46,15 +46,17 @@ CheckoutInfo SatelliteGit::checkout_info(char const* p_targetPath)
         goto cleanup;
     }
 
-
     workdirCharPtr = GitProxy::git_repository_workdir(repo);
     if(workdirCharPtr)
     {
         size_t length = std::strlen(workdirCharPtr)+1;
-        std::unique_ptr<char []> copyBuffer = std::make_unique<char []>(length); // +1 for the null terminator       
+        CStringWrapper copyBuffer(length);
         strcpy_s(copyBuffer.get(), length*sizeof(char), workdirCharPtr);
         workdir = std::move(copyBuffer);
     }
+
+    p_out_checkoutInfo.m_isCheckout = discoverResult == 0;
+    p_out_checkoutInfo.m_checkoutRoot = std::move(workdir);
 
 cleanup:
 
@@ -68,7 +70,7 @@ cleanup:
         GitProxy::git_buf_free(&buf);
     }
 
-    return CheckoutInfo(discoverResult == 0, std::move(workdir));
+    return Error{};
 }
 
 }

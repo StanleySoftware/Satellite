@@ -60,8 +60,7 @@ void LibObject::unload()
 	}
 }
 
-template<typename FuncPtr>
-FuncPtr LibObject::get_proc(LibString p_func_name)
+void* LibObject::get_proc_inner(LibString p_func_name)
 {
 	if(m_libHandle)
 	{
@@ -73,7 +72,7 @@ FuncPtr LibObject::get_proc(LibString p_func_name)
 	}
 }
 
-constexpr LibString LibObject::get_lib_name() const
+LibString LibObject::get_lib_name() const
 {
 	return m_libName;
 }

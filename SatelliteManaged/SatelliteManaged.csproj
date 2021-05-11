@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Sat</RootNamespace>
+    <Platforms>AnyCPU;x64;x86</Platforms>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SatelliteC\SatelliteC.vcxproj">
+      <Private>true</Private>
+      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="if $(Platform) == x86 (&#xD;&#xA;    robocopy $(SolutionDir)SatelliteC\bin\x64\$(Configuration)\ $(TargetDir) /s&#xD;&#xA;)&#xD;&#xA;if $(Platform) == x64 (&#xD;&#xA;    robocopy $(SolutionDir)SatelliteC\bin\x64\$(Configuration)\ $(TargetDir) /s&#xD;&#xA;)&#xD;&#xA;if %25ERRORLEVEL%25 LEQ 8 (&#xD;&#xA;    exit /b 0&#xD;&#xA;)" />
+  </Target>
+
+</Project>

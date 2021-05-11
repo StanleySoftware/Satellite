@@ -41,47 +41,53 @@
             <Component Id="AppendToPath" Guid="{DFBA5360-F758-4C7E-ACC0-32DC08D1E0F1}" KeyPath="yes">
               <Environment Id="PATH" Name="PATH" Value="[PROJECTOUTPUT]" Permanent="no" Part="last" Action="set" System="yes" />
             </Component>
-            <Component Id="git2106a5f2" Guid="{3EB157F1-F126-4E75-A8E0-456FF48BCF4D}" KeyPath="yes">
-                <File Id="git2106a5f2.dll" Source="$(var.SatelliteApp.TargetDir)/git2-106a5f2.dll" />
+            <Component Id="git2-6777db8" Guid="{3EB157F1-F126-4E75-A8E0-456FF48BCF4D}" KeyPath="yes">
+                <File Id="git2-6777db8.dll" Source="$(var.SatelliteApp.TargetDir)/git2-6777db8.dll" />
             </Component>
-            <Component Id="ISatellite" Guid="{02C49553-4643-4F15-B142-FE832BB809F2}" KeyPath="yes">
-                <File Id="ISatellite.dll" Source="$(var.SatelliteApp.TargetDir)/ISatellite.dll" />
+            <Component Id="libgit2.license" Guid="{ABF6CBD8-2A84-4B19-89AD-7730E6B7D3C1}" KeyPath="yes">
+              <File Id="libgit2.license.txt" Source="$(var.SatelliteApp.TargetDir)/libgit2.license.txt" />
             </Component>
-            <Component Id="LibGit2Sharp" Guid="{68133B7D-710A-402B-A1EE-F8BDF4C993B9}" KeyPath="yes">
-                <File Id="LibGit2Sharp.dll" Source="$(var.SatelliteApp.TargetDir)/LibGit2Sharp.dll" />
-            </Component>
-            <Component Id="LICENSELibGit2Sharp" Guid="{ABF6CBD8-2A84-4B19-89AD-7730E6B7D3C1}" KeyPath="yes">
-                <File Id="LICENSELibGit2Sharp.md" Source="$(var.SatelliteApp.TargetDir)/LICENSELibGit2Sharp.md" />
-            </Component>
-            <Component Id="LICENSESatellite" Guid="{CB6360DF-FB72-47AE-A457-6189DFEFDA89}" KeyPath="yes">
-                <File Id="LICENSESatellite.md" Source="$(var.SatelliteApp.TargetDir)/LICENSESatellite.md" />
+            <Component Id="LICENSE" Guid="{68133B7D-710A-402B-A1EE-F8BDF4C993B9}" KeyPath="yes">
+                <File Id="LICENSE" Source="$(var.SatelliteApp.TargetDir)/LICENSE" />
             </Component>
             <Component Id="LICENSESystem.CommandLine" Guid="{4BE0C66B-BCA7-447F-8310-7B41D7663646}" KeyPath="yes">
                 <File Id="LICENSESystem.CommandLine.md" Source="$(var.SatelliteApp.TargetDir)/LICENSESystem.CommandLine.md" />
             </Component>
-            <Component Id="SatelliteLib" Guid="{038CC7E8-DB25-4AD0-8865-3A5E8AC1D4F1}" KeyPath="yes">
-                <File Id="SatelliteLib.dll" Source="$(var.SatelliteApp.TargetDir)/SatelliteLib.dll" />
-            </Component>
             <Component Id="Satellite.deps" Guid="{377079DF-E17D-4689-803D-3BAA83D75682}" KeyPath="yes">
                 <File Id="Satellite.deps.json" Source="$(var.SatelliteApp.TargetDir)/Satellite.deps.json" />
+            </Component>
+            <Component Id="Satellite.dll" Guid="{F712648D-2230-43D3-889B-24F6DAB30CA3}" KeyPath="yes">
+              <File Id="Satellite.dll" Source="$(var.SatelliteApp.TargetDir)/Satellite.dll" />
+            </Component>
+            <Component Id="Satellite.exe" Guid="{AB057852-94E8-4694-9672-FB0B1A0DFAFE}" KeyPath="yes">
+              <File Id="Satellite.exe" Source="$(var.SatelliteApp.TargetDir)/Satellite.exe" />
             </Component>
            <Component Id="Satellite.runtimeconfig.dev" Guid="{ED059DDF-1441-4661-9637-3BD050D0639D}" KeyPath="yes">
                 <File Id="Satellite.runtimeconfig.dev.json" Source="$(var.SatelliteApp.TargetDir)/Satellite.runtimeconfig.dev.json" />
             </Component>
-          <Component Id="Satellite.runtimeconfig." Guid="{2A0D2E61-F4A9-4E55-8F61-F38D2B1CE287}" KeyPath="yes">
+            <Component Id="Satellite.runtimeconfig" Guid="{2A0D2E61-F4A9-4E55-8F61-F38D2B1CE287}" KeyPath="yes">
                 <File Id="Satellite.runtimeconfig.json" Source="$(var.SatelliteApp.TargetDir)/Satellite.runtimeconfig.json" />
+            </Component>          
+            <Component Id="SatelliteCdll" Guid="{02C49553-4643-4F15-B142-FE832BB809F2}" KeyPath="yes">
+              <File Id="SatelliteC.dll" Source="$(var.SatelliteApp.TargetDir)/SatelliteC.dll" />
             </Component>
-            <Component Id="Satellite.dll" Guid="{F712648D-2230-43D3-889B-24F6DAB30CA3}" KeyPath="yes">
-                <File Id="Satellite.dll" Source="$(var.SatelliteApp.TargetDir)/Satellite.dll" />
+            <Component Id="SatelliteCexp" Guid="{B5399263-8147-4235-82AD-AFD11CCCB355}" KeyPath="yes">
+              <File Id="SatelliteC.exp" Source="$(var.SatelliteApp.TargetDir)/SatelliteC.exp" />
             </Component>
-            <Component Id="Satellite.exe" Guid="{AB057852-94E8-4694-9672-FB0B1A0DFAFE}" KeyPath="yes">
-                <File Id="Satellite.exe" Source="$(var.SatelliteApp.TargetDir)/Satellite.exe" />
+            <Component Id="SatelliteClib" Guid="{338F3A3A-D242-44F1-9399-938ADC3660EB}" KeyPath="yes">
+              <File Id="SatelliteC.lib" Source="$(var.SatelliteApp.TargetDir)/SatelliteC.lib" />
             </Component>
-            <Component Id="SatelliteGit" Guid="{55852455-DB1A-4BAA-B6B0-F9EAB3B7CA8C}" KeyPath="yes">
-                <File Id="SatelliteGit.dll" Source="$(var.SatelliteApp.TargetDir)/SatelliteGit.dll" />
+            <Component Id="SatelliteManageddeps" Guid="{F4C91D56-6DEE-4D17-9D0A-C23F2181EF04}" KeyPath="yes">
+              <File Id="SatelliteManaged.deps.json" Source="$(var.SatelliteApp.TargetDir)/SatelliteManaged.deps.json" />
+            </Component>
+            <Component Id="SatelliteManaged" Guid="{55852455-DB1A-4BAA-B6B0-F9EAB3B7CA8C}" KeyPath="yes">
+              <File Id="SatelliteManaged.dll" Source="$(var.SatelliteApp.TargetDir)/SatelliteManaged.dll" />
             </Component>
             <Component Id="System.CommandLine" Guid="{873909D3-CC35-40D8-A80D-09756D945931}" KeyPath="yes">
                 <File Id="System.CommandLine.dll" Source="$(var.SatelliteApp.TargetDir)/System.CommandLine.dll" />
+            </Component>
+            <Component Id="SatelliteLib" Guid="{A4244828-F739-4A3D-968D-3517550E8F82}" KeyPath="yes">
+              <File Id="SatelliteLib.lib" Source="$(var.SatelliteLib.TargetDir)/SatelliteLib.lib" />
             </Component>
         </ComponentGroup>
     </Fragment>

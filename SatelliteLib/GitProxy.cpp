@@ -39,7 +39,8 @@ auto invoke_lib_func(char const * const p_func_name, Args... p_args) -> decltype
 	FuncPtrType func_to_invoke = s_libgit.get_proc<FuncPtrType>(p_func_name);
 	if(!func_to_invoke)
 	{
-		std::string err_str = str_format("Unable to invoke function '%s' from library '%s'.", p_func_name, s_libgit.get_lib_name());
+		CStringWrapper err_c_str = str_format("Unable to invoke function '%s' from library '%s'.", p_func_name, s_libgit.get_lib_name());
+		std::string err_str(err_c_str.release());
 		throw std::runtime_error(err_str);
 	}
 	

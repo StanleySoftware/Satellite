@@ -8,6 +8,7 @@
     <AssemblyName>Satellite</AssemblyName>
     <RootNamespace>Sat</RootNamespace>
     <StartupObject>Sat.SatelliteApp</StartupObject>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -27,14 +28,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="LICENSESatellite.md" />
     <None Remove="LICENSESystem.CommandLine.md" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="LICENSESatellite.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="LICENSESystem.CommandLine.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -49,5 +46,13 @@
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SatelliteManaged\SatelliteManaged.csproj" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="robocopy $(SolutionDir)SatelliteManaged\bin\$(PlatformName)\$(Configuration)\netcoreapp3.1 $(TargetDir) /s&#xD;&#xA;if %25ERRORLEVEL%25 LEQ 8 (&#xD;&#xA;    exit /b 0&#xD;&#xA;)" />
+  </Target>
 
 </Project>

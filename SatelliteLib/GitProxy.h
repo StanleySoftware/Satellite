@@ -3,6 +3,8 @@
 #include <type_traits>
 #include <DllLoad.h>
 
+//Wrapper around small subset of the libgit2 API
+
 namespace Sat
 {
 

@@ -29,11 +29,16 @@ public:
 	void unload();
 
 	template<typename FuncPtr>
-	FuncPtr get_proc(LibString p_func_name);
+	FuncPtr get_proc(LibString p_func_name)
+	{
+		return static_cast<FuncPtr>(get_proc_inner(p_func_name));
+	}
 
-	constexpr LibString get_lib_name() const;
+	LibString get_lib_name() const;
 
 protected:
+	void* get_proc_inner(LibString p_func_name);
+
 	unsigned int m_count = 0;
 	LibString const m_libName{};
 	LibHandle m_libHandle{};

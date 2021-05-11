@@ -15,10 +15,34 @@ namespace Sat
 {
     class SatelliteApp
     {
-        private static readonly Dictionary<string, Type> VCSTypes = new Dictionary<string, Type>()
+        [DllImport("shell32.dll", SetLastError = true)]
+        internal static extern IntPtr CommandLineToArgvW([MarshalAs(UnmanagedType.LPWStr)] string p_cmdLine, out int p_numArgs);
+
+        public static string[] SeparateArgString(string p_args)
         {
-            { "git", typeof(SatelliteGit)}
-        };
+            int argc;
+            var argv = CommandLineToArgvW(p_args, out argc);
+            if (argv == IntPtr.Zero)
+            {
+                throw new System.ComponentModel.Win32Exception();
+            }
+
+            var separatedArgs = new string[argc];
+
+            try
+            {
+                for (var i = 0; i < separatedArgs.Length; i++)
+                {
+                    var arg = Marshal.ReadIntPtr(argv, i * IntPtr.Size);
+                    separatedArgs[i] = Marshal.PtrToStringUni(arg);
+                }
+                return separatedArgs;
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(argv);
+            }
+        }
 
         private static void PassThrough(Stream p_instream, Stream p_outstream)
         {
@@ -116,14 +140,27 @@ namespace Sat
         {
             //Ensure we have !invoke at the end
             string[] keys = query.Split(':');
-            if (keys.Last() != "!invoke")
+            if (keys.Last() != "!")
             {
-                List<string> fullKeys = new List<string>(keys.Append("!invoke"));
+                List<string> fullKeys = new List<string>(keys.Append("!"));
                 query = String.Join(':', fullKeys);
             }
 
             string oldWorkingDirectory = Directory.GetCurrentDirectory();
-            string invokePrefix = Satellite.RelayGit(targetDir, query);
+
+            Satellite satellite = new Satellite(Satellite.VCSMap[vcs]);
+
+            string invokePrefix = null;
+
+            SatelliteError err = satellite.Relay(targetDir, query, ref invokePrefix);
+
+            if (err.m_errorCode != 0)
+            {
+                Console.Out.WriteLine($"Satellite Error: Satellite relay failed with code \'{err.m_errorCode}\' : \'{err.m_errorMessage}\'");
+                Console.Out.WriteLine("Satellite: Aborting...");
+                return (int)err.m_errorCode;
+            }
+
             if(invokePrefix == null)
             {
                 return -1;
@@ -132,7 +169,7 @@ namespace Sat
             string joinedArgs = String.Join(' ', args);
             string fullCommand = $"{invokePrefix} {joinedArgs}";
 
-            string[] separatedArgs = Satellite.SeperateArgString(fullCommand);
+            string[] separatedArgs = SeparateArgString(fullCommand);
 
             string executableName = separatedArgs.First();
             string fullArgs = "";
@@ -147,8 +184,15 @@ namespace Sat
             return -1;
         }
 
+        static void OnExit(object sender, EventArgs e)
+        {
+            Satellite.Shutdown();
+        }
+
         public static int Main(string[] p_args)
         {
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnExit);
+
             // Create a root command with some options
             var rootCommand = new RootCommand
             {
@@ -162,7 +206,7 @@ namespace Sat
                 new Option<string>(
                     "--vcs",
                     getDefaultValue: () => "git",
-                    description: $"The name for the VCS system to use. Valid values are [{String.Join(", ",VCSTypes.Keys)}]"),
+                    description: $"The name for the VCS system to use. Valid values are [{String.Join(", ",Satellite.VCSMap.Keys)}]"),
                 new Option<string>(
                     "--targetDir",
                     getDefaultValue: () => Directory.GetCurrentDirectory(),
@@ -177,8 +221,18 @@ namespace Sat
             // Note that the parameters of the handler method are matched according to the names of the options
             rootCommand.Handler = CommandHandler.Create<string, string[], string, string>(InvokeCommand);
 
+
+            if (!Satellite.Init())
+            {
+                Console.Out.WriteLine($"Satellite Error: Failed to initialise the library.");
+                Console.Out.WriteLine("Satellite: Aborting...");
+                return -1;
+            }
+
             // Parse the incoming args and invoke the handler
-            return rootCommand.InvokeAsync(p_args).Result;
+            int res = rootCommand.InvokeAsync(p_args).Result;
+            Satellite.Shutdown();
+            return res;
         }
     }
 }

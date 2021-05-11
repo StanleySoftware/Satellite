@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SatelliteManaged": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

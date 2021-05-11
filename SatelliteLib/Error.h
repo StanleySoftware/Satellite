@@ -1,23 +1,32 @@
 #pragma once
 #include <string>
-#include "Export.h"
+#include <CStringWrapper.h>
 
 namespace Sat
 {
 
-enum class ErrorType : signed int
+enum class ErrorType : int
 {
+	UNSPECIFIED = -1,
 	SUCCESS = 0,
+	NOINIT,
 	NOTACHECKOUT,
 	BARECHECKOUT,
 	FILEREAD,
-	JSONPARSE
+	JSONPARSE,
+	EMPTYQUERY,
+	SEPARATEARGFAILURE,
+	EMPTYVALUE,
+	FILEDOESNOTEXIST,
+	FILENOTJSON,
+	INVALIDSTRHND,
+	STRCOPYFAILURE
 };
 
 struct Error
 {
 	ErrorType m_errorType;
-	std::string m_errorMessage;
+	CStringWrapper m_errorMessage;
 
 	unsigned int errorCode() const { return static_cast<unsigned int>(m_errorType);  }
 };
