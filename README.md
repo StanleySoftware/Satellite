@@ -54,7 +54,7 @@ SomeDrive
 
 then, if our working directory is set to `SomeDrive:\ProjectA\SomeFolder` and we run the following on the command line:
 ```
-satellite python --args "hello.py"
+satellite python:! --args "hello.py"
 ```
 Satellite resolves `python` against the satellite.json file at the root of ProjectA, and then invokes the process at the path it has looked up (see section on queries for more details about this).
 
@@ -67,3 +67,22 @@ Satellite is also provided as a library that can be linked into your own develop
 * SatelliteLib.lib can be compiled as a static library and linked directly into other applications.
 
 ## Queries ##
+
+Queries are composed of two types of symbol:
+
+* 'keys' which are arbitrary strings used as lookups in the json files
+* ':' seperators that represent a chaining of lookups between multiple files
+
+As an example, the following query 'key1:key2:key3' is resolved the following way:
+
+* Queries are always invoked at a target path. From the command line, the working directory is used if none is specified.
+* From that target path, the satellite.json file in the root of the working copy is found: C:\MyProject\satellite.json
+* key1 is looked up inside C:\MyProject\satellite.json and the corresponding value is '.\DirectoryA\satellite.json' which becomes 'C:\MyProject\DirectoryA\satellite.json'
+* ':' interprets the last looked up value as a json file, and attempts to parse it
+* key2 is looked up inside C:\MyProject\DirectoryA\satellite.json and the corresponding value is '.\DirectoryA\DirectoryB\satellite.json' which becomes 'C:\MyProject\DirectoryA\DirectoryB\satellite.json'
+* ':' interprets the last looked up value as a json file, and attempts to parse it
+* key3 is looked up inside C:\MyProject\DirectoryA\DirectoryB\satellite.json and the corresponding value is 'MediumRare'
+
+Some things to note:
+* If the value looked up preceding ':' is not the path to a .json file then the query is ill-formed.
+* '!' is a special key indicating a runnable executable (and any args). When carrying out queries on the command line, '!' indicates that the looked up value should be run. e.g. 'key1:!' invokes a process using the value of the key '!' in the json file looked up by 'key1'.
