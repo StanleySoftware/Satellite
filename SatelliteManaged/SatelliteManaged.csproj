@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if $(Platform) == x86 (&#xD;&#xA;    robocopy $(SolutionDir)SatelliteC\bin\x64\$(Configuration)\ $(TargetDir) /s&#xD;&#xA;)&#xD;&#xA;if $(Platform) == x64 (&#xD;&#xA;    robocopy $(SolutionDir)SatelliteC\bin\x64\$(Configuration)\ $(TargetDir) /s&#xD;&#xA;)&#xD;&#xA;if %25ERRORLEVEL%25 LEQ 8 (&#xD;&#xA;    exit /b 0&#xD;&#xA;)" />
+    <Exec Command="if $(Platform) == x86 (&#xD;&#xA;    robocopy $(SolutionDir)SatelliteC\bin\Win32\$(Configuration)\ $(TargetDir) /s&#xD;&#xA;)&#xD;&#xA;if $(Platform) == x64 (&#xD;&#xA;    robocopy $(SolutionDir)SatelliteC\bin\x64\$(Configuration)\ $(TargetDir) /s&#xD;&#xA;)&#xD;&#xA;if %25ERRORLEVEL%25 LEQ 8 (&#xD;&#xA;    exit /b 0&#xD;&#xA;)" />
   </Target>
 
 </Project>
