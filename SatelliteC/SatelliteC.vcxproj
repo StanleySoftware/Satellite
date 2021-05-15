@@ -209,7 +209,6 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Export.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="SatelliteC.h" />
   </ItemGroup>
