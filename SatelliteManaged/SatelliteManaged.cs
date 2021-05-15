@@ -103,7 +103,7 @@ namespace Sat
         internal SatelliteError(SatError p_error)
         {
             m_errorCode = (SatelliteErrorType)(p_error.m_errorCode);
-            string mess = p_error.m_errorMessage.ToString();
+            string mess = StrHndUtil.AsString(p_error.m_errorMessage);
             if (mess != null)
             {
                 m_errorMessage = mess;
@@ -120,7 +120,7 @@ namespace Sat
         internal SatelliteCheckoutInfo(SatCheckoutInfo p_ci)
         {
             m_isCheckout = p_ci.m_isCheckout;
-            string mess = p_ci.m_checkoutRoot.ToString();
+            string mess = StrHndUtil.AsString(p_ci.m_checkoutRoot);
             if (mess != null)
             {
                 m_checkoutRoot = mess;

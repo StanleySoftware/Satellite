@@ -140,11 +140,6 @@ namespace Sat
         {
             //Ensure we have !invoke at the end
             string[] keys = query.Split(':');
-            if (keys.Last() != "!")
-            {
-                List<string> fullKeys = new List<string>(keys.Append("!"));
-                query = String.Join(':', fullKeys);
-            }
 
             string oldWorkingDirectory = Directory.GetCurrentDirectory();
 
@@ -164,6 +159,12 @@ namespace Sat
             if(invokePrefix == null)
             {
                 return -1;
+            }
+
+            if(keys.Last() != "!")
+            {
+                Console.Out.WriteLine($"{invokePrefix}");
+                return 0;
             }
 
             string joinedArgs = String.Join(' ', args);
