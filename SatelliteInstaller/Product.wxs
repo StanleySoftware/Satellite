@@ -3,10 +3,11 @@
 	<Product Id="*" Name="Satellite" Language="1033" Version="1.0.0.0" Manufacturer="StanleySoftware" UpgradeCode="d81fb3a5-5608-4a08-80d8-f7d01060fcb1">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"/>
         <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-        <MediaTemplate />
+        <MediaTemplate EmbedCab="yes" />
 
         <Feature Id="ProductFeature" Title="Satellite" Level="1">
             <ComponentGroupRef Id="ProductComponents" />
+            <ComponentGroupRef Id="IncludeComponents" />
         </Feature>
   
         <WixVariable Id="WixUILicenseRtf" Value="eula.rtf" />
@@ -24,12 +25,16 @@
             <Directory Id="CDrive">
               <?if $(var.SatelliteApp.Platform) = x86 ?>
                 <Directory Id="ProgramFilesFolder">
-                  <Directory Id="PROJECTOUTPUT" Name="Satellite" />
+                  <Directory Id="PROJECTOUTPUT" Name="Satellite">
+                    <Directory Id="INCLUDESOUTPUT" Name="Include"/>
+                  </Directory>
                 </Directory>
               <?endif?>
               <?if $(var.SatelliteApp.Platform) = x64 ?>
               <Directory Id="ProgramFiles64Folder">
-                  <Directory Id="PROJECTOUTPUT" Name="Satellite" />
+                <Directory Id="PROJECTOUTPUT" Name="Satellite">
+                  <Directory Id="INCLUDESOUTPUT" Name="Include"/>
+                </Directory>
               </Directory>
               <?endif?>
             </Directory>
@@ -41,8 +46,8 @@
             <Component Id="AppendToPath" Guid="{DFBA5360-F758-4C7E-ACC0-32DC08D1E0F1}" KeyPath="yes">
               <Environment Id="PATH" Name="PATH" Value="[PROJECTOUTPUT]" Permanent="no" Part="last" Action="set" System="yes" />
             </Component>
-            <Component Id="git2-6777db8" Guid="{3EB157F1-F126-4E75-A8E0-456FF48BCF4D}" KeyPath="yes">
-                <File Id="git2-6777db8.dll" Source="$(var.SatelliteApp.TargetDir)/git2-6777db8.dll" />
+            <Component Id="git2_6777db8" Guid="{3EB157F1-F126-4E75-A8E0-456FF48BCF4D}" KeyPath="yes">
+                <File Id="git2_6777db8.dll" Source="$(var.SatelliteApp.TargetDir)/git2-6777db8.dll" />
             </Component>
             <Component Id="libgit2.license" Guid="{ABF6CBD8-2A84-4B19-89AD-7730E6B7D3C1}" KeyPath="yes">
               <File Id="libgit2.license.txt" Source="$(var.SatelliteApp.TargetDir)/libgit2.license.txt" />
@@ -86,9 +91,11 @@
             <Component Id="System.CommandLine" Guid="{873909D3-CC35-40D8-A80D-09756D945931}" KeyPath="yes">
                 <File Id="System.CommandLine.dll" Source="$(var.SatelliteApp.TargetDir)/System.CommandLine.dll" />
             </Component>
-            <Component Id="SatelliteLib" Guid="{A4244828-F739-4A3D-968D-3517550E8F82}" KeyPath="yes">
-              <File Id="SatelliteLib.lib" Source="$(var.SatelliteLib.TargetDir)/SatelliteLib.lib" />
-            </Component>
+        </ComponentGroup>
+        <ComponentGroup Id="IncludeComponents" Directory="INCLUDESOUTPUT">
+          <Component Id="SatelliteCh" Guid="{CDBBD6D1-7DC5-4E95-8B9E-BABE1E96BF23}" KeyPath="yes">
+            <File Id="SatelliteC.h" Source="$(var.SatelliteC.ProjectDir)/SatelliteC.h" />
+          </Component>
         </ComponentGroup>
     </Fragment>
 </Wix>
