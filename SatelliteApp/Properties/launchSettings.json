@@ -2,8 +2,8 @@
   "profiles": {
     "SatelliteApp": {
       "commandName": "Project",
-      "commandLineArgs": "python:! --args hello.py",
-      "workingDirectory": "C:\\Users\\Ewan",
+      "commandLineArgs": " python:! --args \"helloworld.py\"",
+      "workingDirectory": "C:\\DevSpace\\Thea\\thea\\Epidaurus",
       "nativeDebugging": true
     }
   }

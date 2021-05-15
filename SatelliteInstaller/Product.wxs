@@ -67,9 +67,6 @@
             <Component Id="Satellite.exe" Guid="{AB057852-94E8-4694-9672-FB0B1A0DFAFE}" KeyPath="yes">
               <File Id="Satellite.exe" Source="$(var.SatelliteApp.TargetDir)/Satellite.exe" />
             </Component>
-           <Component Id="Satellite.runtimeconfig.dev" Guid="{ED059DDF-1441-4661-9637-3BD050D0639D}" KeyPath="yes">
-                <File Id="Satellite.runtimeconfig.dev.json" Source="$(var.SatelliteApp.TargetDir)/Satellite.runtimeconfig.dev.json" />
-            </Component>
             <Component Id="Satellite.runtimeconfig" Guid="{2A0D2E61-F4A9-4E55-8F61-F38D2B1CE287}" KeyPath="yes">
                 <File Id="Satellite.runtimeconfig.json" Source="$(var.SatelliteApp.TargetDir)/Satellite.runtimeconfig.json" />
             </Component>          

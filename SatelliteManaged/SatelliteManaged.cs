@@ -15,6 +15,11 @@ namespace Sat
         public static string AsString(StrHnd p_strhnd)
         {
             UInt32 len = NativeMethods.sat_length_from_strhnd(p_strhnd);
+            if (len == 0u)
+            {
+                return null;
+            }
+
             StringBuilder strBuild = new StringBuilder((Int32)len);
             NativeMethods.sat_copy_from_strhnd(p_strhnd, len + 1, strBuild);
             return strBuild.ToString();

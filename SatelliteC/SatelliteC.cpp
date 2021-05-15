@@ -121,12 +121,24 @@ uint32_t sat_length_from_strhnd(StrHnd p_strhnd)
 	else
 	{
 		char * ptr = s_string_table->at(p_strhnd)->get();
-		return static_cast<uint32_t>(strlen(ptr));
+		if(ptr)
+		{
+			return static_cast<uint32_t>(strlen(ptr));
+		}
+		else
+		{
+			return 0u;
+		}
 	}
 }
 
 Error sat_copy_from_strhnd(StrHnd p_strhnd, uint32_t p_size, char* p_out_string)
 {
+	if (p_size == 0u)
+	{
+		return Error{};
+	}
+
 	if (!s_string_table || p_strhnd == c_string_table_no_init)
 	{
 		uint32_t len = sat_length_from_strhnd(p_strhnd);
