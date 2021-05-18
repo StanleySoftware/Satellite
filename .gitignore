@@ -1,4 +1,5 @@
 packages/
+SatelliteApp/Properties/launchSettings.json
 
 # User-specific files
 *.rsuser
