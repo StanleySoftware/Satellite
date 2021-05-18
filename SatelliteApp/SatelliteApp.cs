@@ -76,7 +76,7 @@ namespace Sat
             PassThrough(Console.OpenStandardInput(), process.StandardInput.BaseStream);
         }
 
-        private static int Invoke(string p_executableTarget, string p_args, string p_workingDirectory)
+        private static int Invoke(string p_executableTarget, string[] p_args, string p_workingDirectory)
         {
             if (p_executableTarget != null)
             {
@@ -89,7 +89,7 @@ namespace Sat
                 processStartInfo.FileName = p_executableTarget;
                 processStartInfo.WorkingDirectory = p_workingDirectory;
 
-                processStartInfo.Arguments = string.Join(' ', p_args);
+                processStartInfo.Arguments = string.Join(' ', p_args.Select(a => $"\"{a}\""));
 
                 using (System.Diagnostics.Process exeProcess = new System.Diagnostics.Process())
                 {
@@ -173,10 +173,10 @@ namespace Sat
             string[] separatedArgs = SeparateArgString(fullCommand);
 
             string executableName = separatedArgs.First();
-            string fullArgs = "";
+            string[] fullArgs = { };
             if (separatedArgs.Length > 1)
             {
-                fullArgs = String.Join(' ', separatedArgs.Skip(1).Take(separatedArgs.Length - 1));
+                fullArgs = separatedArgs.Skip(1).Take(separatedArgs.Length - 1).ToArray();
             }
             if (executableName != null)
             {
