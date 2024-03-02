@@ -16,7 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SatelliteLib.h">
@@ -28,19 +27,13 @@
     <ClInclude Include="Error.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SatelliteBase.h">
+    <ClInclude Include="Satellite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SatelliteGit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckoutInfo.h">
+    <ClInclude Include="WorkspaceInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DllLoad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GitProxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utility.h">
@@ -54,25 +47,14 @@
     <ClCompile Include="SatelliteLib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SatelliteGit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DllLoad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GitProxy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SatelliteBase.cpp">
+    <ClCompile Include="Satellite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="$(SolutionDir)\packages\LibGit2Sharp.NativeBinaries.2.0.312\runtimes\win-x86\native\git2-6777db8.dll" />
-    <CopyFileToFolders Include="$(SolutionDir)\packages\LibGit2Sharp.NativeBinaries.2.0.312\runtimes\win-x86\native\git2-6777db8.pdb" />
-    <CopyFileToFolders Include="$(SolutionDir)\packages\LibGit2Sharp.NativeBinaries.2.0.312\runtimes\win-x64\native\git2-6777db8.dll" />
-    <CopyFileToFolders Include="$(SolutionDir)\packages\LibGit2Sharp.NativeBinaries.2.0.312\runtimes\win-x64\native\git2-6777db8.pdb" />
     <CopyFileToFolders Include="..\LICENSE" />
-    <CopyFileToFolders Include="..\packages\LibGit2Sharp.NativeBinaries.2.0.312\libgit2\libgit2.license.txt" />
   </ItemGroup>
 </Project>

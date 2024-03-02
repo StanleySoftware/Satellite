@@ -7,7 +7,7 @@
 
 #include <Error.h>
 #include <CStringWrapper.h>
-#include <CheckoutInfo.h>
+#include <WorkspaceInfo.h>
 
 namespace SatC
 {
@@ -38,11 +38,11 @@ Error to_interface_type(Sat::Error && p_error)
 	return err;
 }
 
-CheckoutInfo to_interface_type(Sat::CheckoutInfo && p_checkoutinfo)
+WorkspaceInfo to_interface_type(Sat::WorkspaceInfo && p_Workspaceinfo)
 {
-	CheckoutInfo ci{};
-	ci.m_isCheckout = p_checkoutinfo.m_isCheckout;
-	ci.m_checkoutRoot = to_interface_type(std::move(p_checkoutinfo.m_checkoutRoot));
+	WorkspaceInfo ci{};
+	ci.m_isWorkspace = p_Workspaceinfo.m_isWorkspace;
+	ci.m_workspaceRoot = to_interface_type(std::move(p_Workspaceinfo.m_workspaceRoot));
 	return ci;
 }
 

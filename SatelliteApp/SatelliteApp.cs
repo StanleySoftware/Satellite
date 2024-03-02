@@ -136,14 +136,14 @@ namespace Sat
             return 0;
         }
 
-        private static int InvokeCommand(string query, string[] args, string vcs, string targetDir)
+        private static int InvokeCommand(string query, string[] args, string targetDir)
         {
             //Ensure we have !invoke at the end
             string[] keys = query.Split(':');
 
             string oldWorkingDirectory = Directory.GetCurrentDirectory();
 
-            Satellite satellite = new Satellite(Satellite.VCSMap[vcs]);
+            Satellite satellite = new Satellite();
 
             string invokePrefix = null;
 
@@ -205,10 +205,6 @@ namespace Sat
                     getDefaultValue: () => new string[] {},
                     description: "List of arguments to pass to the invoked target."),
                 new Option<string>(
-                    "--vcs",
-                    getDefaultValue: () => "git",
-                    description: $"The name for the VCS system to use. Valid values are [{String.Join(", ",Satellite.VCSMap.Keys)}]"),
-                new Option<string>(
                     "--targetDir",
                     getDefaultValue: () => Directory.GetCurrentDirectory(),
                     description: "The path from which to invoke the query. By default uses the current working directory.")
@@ -220,7 +216,7 @@ namespace Sat
                 "Once the full query has been resolved, takes the string returned from the query, and invokes it as a process.";
 
             // Note that the parameters of the handler method are matched according to the names of the options
-            rootCommand.Handler = CommandHandler.Create<string, string[], string, string>(InvokeCommand);
+            rootCommand.Handler = CommandHandler.Create<string, string[], string>(InvokeCommand);
 
 
             if (!Satellite.Init())

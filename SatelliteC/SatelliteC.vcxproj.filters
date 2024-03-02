@@ -34,11 +34,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="..\packages\LibGit2Sharp.NativeBinaries.2.0.312\runtimes\win-x64\native\git2-6777db8.dll" />
-    <CopyFileToFolders Include="..\packages\LibGit2Sharp.NativeBinaries.2.0.312\runtimes\win-x86\native\git2-6777db8.dll" />
-    <CopyFileToFolders Include="..\packages\LibGit2Sharp.NativeBinaries.2.0.312\runtimes\win-x64\native\git2-6777db8.pdb" />
-    <CopyFileToFolders Include="..\packages\LibGit2Sharp.NativeBinaries.2.0.312\runtimes\win-x86\native\git2-6777db8.pdb" />
     <CopyFileToFolders Include="..\LICENSE" />
-    <CopyFileToFolders Include="..\packages\LibGit2Sharp.NativeBinaries.2.0.312\libgit2\libgit2.license.txt" />
   </ItemGroup>
 </Project>

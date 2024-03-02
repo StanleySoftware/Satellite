@@ -33,10 +33,10 @@ namespace Sat
         public Int32 m_errorCode;
     }
     [StructLayout(LayoutKind.Sequential)]
-    internal struct SatCheckoutInfo
+    internal struct SatWorkspaceInfo
     {
-        public bool m_isCheckout;
-        public StrHnd m_checkoutRoot;
+        public bool m_isWorkspace;
+        public StrHnd m_workspaceRoot;
     }
     internal static class NativeMethods
     {
@@ -48,7 +48,7 @@ namespace Sat
         internal static extern bool sat_shutdown();
 
         [DllImport("SatelliteC.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern SatError sat_create(UInt32 p_vcs, ref IntPtr p_out_satellite);
+        internal static extern SatError sat_create(ref IntPtr p_out_satellite);
 
         [DllImport("SatelliteC.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void sat_load(IntPtr p_satellite);
@@ -57,7 +57,7 @@ namespace Sat
         internal static extern void sat_unload(IntPtr p_satellite);
 
         [DllImport("SatelliteC.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern SatError sat_checkout_info(IntPtr p_satellite, [MarshalAs(UnmanagedType.LPStr)] string p_targetPath, ref SatCheckoutInfo p_out_checkoutInfo);
+        internal static extern SatError sat_checkout_info(IntPtr p_satellite, [MarshalAs(UnmanagedType.LPStr)] string p_targetPath, ref SatWorkspaceInfo p_out_checkoutInfo);
 
         [DllImport("SatelliteC.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern SatError sat_relay(IntPtr p_satellite, [MarshalAs(UnmanagedType.LPStr)] string p_originPath, [MarshalAs(UnmanagedType.LPStr)] string p_query, ref StrHnd p_out_string);
@@ -78,11 +78,6 @@ namespace Sat
     }
 
     // === Managed ===
-
-    public enum VCSType : uint
-    {
-        GIT = 0
-    }
 
     public enum SatelliteErrorType : Int32
     {
@@ -122,10 +117,10 @@ namespace Sat
     public class SatelliteCheckoutInfo
     {
         public SatelliteCheckoutInfo() { }
-        internal SatelliteCheckoutInfo(SatCheckoutInfo p_ci)
+        internal SatelliteCheckoutInfo(SatWorkspaceInfo p_ci)
         {
-            m_isCheckout = p_ci.m_isCheckout;
-            string mess = StrHndUtil.AsString(p_ci.m_checkoutRoot);
+            m_isCheckout = p_ci.m_isWorkspace;
+            string mess = StrHndUtil.AsString(p_ci.m_workspaceRoot);
             if (mess != null)
             {
                 m_checkoutRoot = mess;
@@ -138,16 +133,6 @@ namespace Sat
 
     public class Satellite
     {
-        public static Dictionary<string, VCSType> VCSMap = new Dictionary<string, VCSType>(StringComparer.InvariantCultureIgnoreCase)
-        {
-            { "git", VCSType.GIT }
-        };
-
-        public Satellite(VCSType p_vcsType)
-        {
-            m_vcsType = p_vcsType;
-        }
-
         public static bool Init()
         {
             return NativeMethods.sat_init();
@@ -159,7 +144,7 @@ namespace Sat
         }
 
         /// <summary>
-        /// Creates a native satellite object and sets p_out_satellite to point to it. Loads any underlying VCS libraries.
+        /// Creates a native satellite object and sets p_out_satellite to point to it.
         /// </summary>
         /// <param name="p_out_satellite">Out parameter for ptr to native satellite object. IntPtr.Zero if an error is encountered.</param>
         /// <returns>Returns an encountered error or a succesful state.</returns>
@@ -167,7 +152,7 @@ namespace Sat
         {
             SatelliteError creationError = new SatelliteError();
             p_out_satellite = IntPtr.Zero;
-            SatError err = NativeMethods.sat_create((uint)m_vcsType, ref p_out_satellite);
+            SatError err = NativeMethods.sat_create(ref p_out_satellite);
             if (err.m_errorCode != 0)
             {
                 creationError = new SatelliteError(err);
@@ -178,7 +163,7 @@ namespace Sat
         }
 
         /// <summary>
-        /// Destroys a non-null native ptr to a satellite object. Shuts down any underlying VCS libraries.
+        /// Destroys a non-null native ptr to a satellite object.
         /// </summary>
         /// <param name="p_out_satellite">The ptr to the satellite object.</param>
         protected void Destroy(ref IntPtr p_out_satellite)
@@ -189,7 +174,7 @@ namespace Sat
         }
 
         /// <summary>
-        /// Retrieves checkout information for the VCS checkout with contains the path 'p_targetPath'.
+        /// Retrieves checkout information
         /// </summary>
         /// <param name="p_targetPath">The target path to inspect.</param>
         /// <param name="p_out_checkoutInfo">The output SatelliteCheckoutInfo object.</param>
@@ -205,7 +190,7 @@ namespace Sat
                 return err;
             }
 
-            SatCheckoutInfo ci = new SatCheckoutInfo();
+            SatWorkspaceInfo ci = new SatWorkspaceInfo();
             SatError errCheckout = NativeMethods.sat_checkout_info(satellite, p_targetPath, ref ci);
             if(errCheckout.m_errorCode == 0)
             {
@@ -256,7 +241,5 @@ namespace Sat
 
             return err;
         }
-
-        VCSType m_vcsType;
     }
 }

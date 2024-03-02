@@ -1,73 +1,76 @@
-#include "SatelliteBase.h"
+#include "Satellite.h"
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
-#include <GitProxy.h>
 #include <Utility.h>
-#include <CheckoutInfo.h>
+#include <WorkspaceInfo.h>
+#include <optional>
 
 namespace Sat
 {
 
 namespace filesys = std::filesystem;
 
-static constexpr char const * c_satelliteFileName = "satellite.json";
+#define SATELLITE_FILENAME "satellite"
+#define SATELLITE_FILE_EXTENSION ".json"
+static constexpr char const * c_satelliteFileName = SATELLITE_FILENAME SATELLITE_FILE_EXTENSION;
 
-Error SatelliteBase::relay(char const * p_originPath, char const* p_query, CStringWrapper& p_out_string)
+Error Satellite::relay(char const * p_originPath, char const* p_query, CStringWrapper& p_out_string)
 {
-//Working copy root
-CheckoutInfo checkout{};
-Error err{};
-err = checkout_info(p_originPath, checkout);
-if (err.errorCode())
-{
+    //Working copy root
+    WorkspaceInfo Workspace{};
+    Error err{};
+    err = workspace_info(p_originPath, Workspace);
+    if (err.errorCode())
+    {
+        return err;
+    }
+
+    if (!Workspace.m_isWorkspace)
+    {
+        err.m_errorType = ErrorType::NOTAWORKSPACE;
+        err.m_errorMessage = str_format("Satellite: Path '%s' is not part of a Workspace.", p_originPath);
+        return err;
+    }
+
+    if (!Workspace.m_workspaceRoot.get())
+    {
+        err.m_errorType = ErrorType::BAREWORKSPACE;
+        err.m_errorMessage = str_format("Satellite: Path '%s' is part of a bare Workspace.", p_originPath);
+        return err;
+    }
+
+    // read the JSON
+    filesys::path satelliteFile = filesys::path(Workspace.m_workspaceRoot.get());
+    std::ifstream fileStream(satelliteFile);
+    nlohmann::json satelliteJson;
+    try
+    {
+        fileStream >> satelliteJson;
+    }
+    catch (nlohmann::json::exception& json_err)
+    {
+        err.m_errorType = ErrorType::JSONPARSE;
+        err.m_errorMessage = str_format("Satellite: While attempting to parse '%s', hit the following error: '%s'", satelliteFile.c_str(), json_err.what());
+        return err;
+    }
+
+    std::vector<std::string> tokens = str_split(p_query, ":");
+    std::stack<std::string> fileStack{};
+    fileStack.emplace(satelliteFile.string());
+    CStringWrapper reply{};
+    err = resolve_expression(tokens, p_query, satelliteJson, fileStack, reply);
+    if(err.errorCode() == 0)
+    {
+        p_out_string = std::move(reply);
+    }
+
     return err;
 }
 
-if (!checkout.m_isCheckout)
-{
-    err.m_errorType = ErrorType::NOTACHECKOUT;
-    err.m_errorMessage = str_format("Satellite: Path '%s' is not part of a checkout.", p_originPath);
-    return err;
-}
-
-if (!checkout.m_checkoutRoot.get())
-{
-    err.m_errorType = ErrorType::BARECHECKOUT;
-    err.m_errorMessage = str_format("Satellite: Path '%s' is part of a bare checkout.", p_originPath);
-    return err;
-}
-
-// read the JSON
-filesys::path satelliteFile = filesys::path(checkout.m_checkoutRoot.get()).append(c_satelliteFileName);
-std::ifstream fileStream(satelliteFile);
-nlohmann::json satelliteJson;
-try
-{
-    fileStream >> satelliteJson;
-}
-catch (nlohmann::json::exception& json_err)
-{
-    err.m_errorType = ErrorType::JSONPARSE;
-    err.m_errorMessage = str_format("Satellite: While attempting to parse '%s', hit the following error: '%s'", satelliteFile.c_str(), json_err.what());
-    return err;
-}
-
-std::vector<std::string> tokens = str_split(p_query, ":");
-std::stack<std::string> fileStack{};
-fileStack.emplace(satelliteFile.string());
-CStringWrapper reply{};
-err = resolve_expression(tokens, p_query, satelliteJson, fileStack, reply);
-if(err.errorCode() == 0)
-{
-    p_out_string = std::move(reply);
-}
-
-return err;
-}
-
-Error SatelliteBase::evaluate_terms(std::filesystem::path const & p_absolute_prefix, std::string const & p_terms, std::string & p_out_evaluated)
+Error Satellite::evaluate_terms(std::filesystem::path const & p_absolute_prefix, std::string const & p_terms, std::string & p_out_evaluated)
 {
     std::vector<std::string> seperatedArgs{};
     Error err = separate_arg_string(p_terms, seperatedArgs);
@@ -100,7 +103,7 @@ Error SatelliteBase::evaluate_terms(std::filesystem::path const & p_absolute_pre
     return Error{};
 }
 
-Error SatelliteBase::resolve_expression(std::vector<std::string> const & p_tokens, std::string const & p_originalExpression, nlohmann::json& p_currentDict,
+Error Satellite::resolve_expression(std::vector<std::string> const & p_tokens, std::string const & p_originalExpression, nlohmann::json& p_currentDict,
     std::stack<std::string>& p_fileStack, CStringWrapper& p_out_string)
 {
     Error err{};
@@ -189,6 +192,61 @@ Error SatelliteBase::resolve_expression(std::vector<std::string> const & p_token
     }
 
     return err;
+}
+
+Error Satellite::workspace_info(char const* p_targetPath, WorkspaceInfo& p_out_WorkspaceInfo)
+{
+    namespace fs = std::filesystem;
+    Error err{};
+    const fs::path expectedFileName{c_satelliteFileName};
+
+    std::optional<fs::path> uppermostMatchingFile;
+    fs::path inspectedPath{p_targetPath};
+    inspectedPath = inspectedPath.make_preferred();
+
+    auto getPathIfValid = [expectedFileName](const fs::path& pathToInspect, std::optional<fs::path>& outPath)
+    {
+        if(!fs::exists(pathToInspect))
+        {
+            return false;
+        }
+
+        if(fs::is_regular_file(pathToInspect) && (pathToInspect.filename() == expectedFileName))
+        {
+            outPath = pathToInspect;
+            return true;
+        }
+
+        return false;
+    };
+
+    if(!fs::exists(inspectedPath))
+    {
+        err.m_errorType = ErrorType::INVALIDPATH;
+        err.m_errorMessage = str_format("Satellite: Path \'%s\' is not recognised by the file system.", p_targetPath);
+        return err;
+    }
+
+    getPathIfValid(inspectedPath, uppermostMatchingFile);
+
+    fs::path parentPath = inspectedPath.parent_path();
+    while(inspectedPath != parentPath)
+    {
+        const fs::path potentialPath = inspectedPath.append(SATELLITE_FILENAME).replace_extension(SATELLITE_FILE_EXTENSION);
+
+        getPathIfValid(potentialPath, uppermostMatchingFile);
+
+        inspectedPath = parentPath;
+        parentPath = inspectedPath.parent_path();
+    }
+
+    if(uppermostMatchingFile.has_value())
+    {
+        p_out_WorkspaceInfo.m_isWorkspace = true;
+        p_out_WorkspaceInfo.m_workspaceRoot = Sat::str_format(uppermostMatchingFile->string());
+    }
+
+    return Error();
 }
 
 }

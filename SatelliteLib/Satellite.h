@@ -9,17 +9,17 @@
 namespace Sat
 {
 
-class SatelliteBase : public ISatellite
+class Satellite : public ISatellite
 {
 public:
 
-    virtual void load() = 0;
-    virtual void unload() = 0;
-    virtual Error checkout_info(char const* p_targetPath, CheckoutInfo& p_out_checkoutInfo) = 0;
+    virtual void load() override {};
+    virtual void unload() override {};
+    virtual Error workspace_info(char const* p_targetPath, WorkspaceInfo& p_out_WorkspaceInfo) override;
 
     virtual Error relay(char const * p_originPath, char const* p_query, CStringWrapper& p_out_string) override;
 
-    virtual ~SatelliteBase(){}
+    virtual ~Satellite(){}
 
 protected:
     Error resolve_expression(std::vector<std::string> const & p_tokens, std::string const & p_originalExpression, nlohmann::json& p_currentDict,

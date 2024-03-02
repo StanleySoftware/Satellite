@@ -33,7 +33,7 @@ bool sat_shutdown()
 	return true;
 }
 
-Error sat_create(uint32_t p_vcs, ISatellite** p_out_satellite)
+Error sat_create(ISatellite** p_out_satellite)
 {
 	if (s_string_table == nullptr)
 	{
@@ -43,8 +43,7 @@ Error sat_create(uint32_t p_vcs, ISatellite** p_out_satellite)
 		return err;
 	}
 
-	Sat::VCSType vcsType = static_cast<Sat::VCSType>(p_vcs);
-	std::unique_ptr<ISatellite> satellite = Sat::satellite_factory(vcsType);
+	std::unique_ptr<ISatellite> satellite = Sat::satellite_factory();
 	*p_out_satellite = satellite.release();
 	return Error{};
 }
@@ -65,22 +64,22 @@ void sat_unload(ISatellite* p_satellite)
 	}
 }
 
-Error sat_checkout_info(ISatellite* p_satellite, char const* p_targetPath, CheckoutInfo* p_out_checkoutInfo)
+Error sat_workspace_info(ISatellite* p_satellite, char const* p_targetPath, WorkspaceInfo* p_out_WorkspaceInfo)
 {
 	Error errPod{};
 	if (p_satellite)
 	{
-		Sat::CheckoutInfo ci{};
-		Sat::Error err = p_satellite->checkout_info(p_targetPath, ci);
+		Sat::WorkspaceInfo ci{};
+		Sat::Error err = p_satellite->workspace_info(p_targetPath, ci);
 		if(!err.errorCode())
 		{
-			*p_out_checkoutInfo = to_interface_type(std::move(ci));
+			*p_out_WorkspaceInfo = to_interface_type(std::move(ci));
 		}
 		
 		errPod = to_interface_type(std::move(err));
 		return errPod;
 	}
-	errPod = create_error(Sat::ErrorType::UNSPECIFIED, "Satellite: Invoking \'checkout_info\' method without a valid ISatellite object.");
+	errPod = create_error(Sat::ErrorType::UNSPECIFIED, "Satellite: Invoking \'workspace_info\' method without a valid ISatellite object.");
 	return errPod;
 }
 

@@ -30,10 +30,10 @@ struct SATELLITEC_API Error
 	int32_t m_errorType;
 };
 
-struct SATELLITEC_API CheckoutInfo
+struct SATELLITEC_API WorkspaceInfo
 {
-	StrHnd m_checkoutRoot;
-	bool m_isCheckout;
+	StrHnd m_workspaceRoot;
+	bool m_isWorkspace;
 };
 
 /// @brief Initialise the library - must be called before anything else
@@ -42,9 +42,8 @@ SATELLITEC_API bool sat_init();
 SATELLITEC_API bool sat_shutdown();
 
 /// @brief Create a satellite object.
-/// @param p_vcs - The VCS type this object is targeting.
 /// @return A pointer to the object.
-SATELLITEC_API Error sat_create(uint32_t p_vcs, ISatellite** p_out_satellite);
+SATELLITEC_API Error sat_create(ISatellite** p_out_satellite);
 
 /// @brief Load the satellite object before doing anything with it.
 /// @param p_satellite - Ptr to the target satellite object.
@@ -53,12 +52,12 @@ SATELLITEC_API void sat_load(ISatellite* p_satellite);
 /// @brief Shut down the satellite object as soon as you are done with it.
 SATELLITEC_API void sat_unload(ISatellite* p_satellite);
 
-/// @brief Retrieves checkout information for the VCS checkout which contains the path 'p_targetPath'.
+/// @brief Retrieves Workspace information for the Workspace which contains the path 'p_targetPath'.
 /// @param p_satellite - Ptr to the target satellite object.
 /// @param p_targetPath - The target path to inspect.
-/// @param p_out_checkoutInfo - The output SatelliteCheckoutInfo object.
+/// @param p_out_workspaceInfo - The output SatelliteWorkspaceInfo object.
 /// @return An encountered error or a succesful state.
-SATELLITEC_API Error sat_checkout_info(ISatellite* p_satellite, char const* p_targetPath, CheckoutInfo* p_out_checkoutInfo);
+SATELLITEC_API Error sat_workspace_info(ISatellite* p_satellite, char const* p_targetPath, WorkspaceInfo* p_out_workspaceInfo);
 
 /// @brief Invokes a relay command from the target path 'p_originPath' with the query 'p_query'.
 /// Sets output parameter 'p_out_string' with the lookup response if successful.
@@ -68,7 +67,7 @@ SATELLITEC_API Error sat_checkout_info(ISatellite* p_satellite, char const* p_ta
 /// key does not produce a path to a satellite.json file, then the query is ill-formed.
 /// The last key in the sequence does not need to resolve to a satellite.json file.
 /// @param p_satellite - Ptr to the target satellite object.
-/// @param p_originPath - Lookup always begins from the root of the checkout, but this path is used by VCS to determine the checkout.
+/// @param p_originPath - Lookup always begins from the root of the Workspace, but this path is used to find it
 /// @param p_query - The query for relay to resolve against.
 /// @param p_out_string - The resulting string looked up from the query
 /// @return An encountered error or a succesful state.
